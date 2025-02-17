@@ -1,0 +1,6 @@
+{
+  "Database": {
+    "Path": "coding_tracker.db",
+    "ConnectionString": "Data Source=coding_tracker.db;Version=3;"
+  }
+}
