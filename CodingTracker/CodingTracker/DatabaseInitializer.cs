@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -21,17 +22,14 @@ namespace CodingTracker
             {
                 connection.Open();
 
-                var tableCmd = connection.CreateCommand();
-
-                tableCmd.CommandText = @$"
+                connection.Execute(@$"
                             CREATE TABLE IF NOT EXISTS 'coding_tracker' (
                                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 StartTime TEXT NOT NULL,
                                 EndTime TEXT,
                                 Duration TEXT,
-                                )";
+                                )");
 
-                tableCmd.ExecuteNonQuery();
                 connection.Close();
             }
         }
