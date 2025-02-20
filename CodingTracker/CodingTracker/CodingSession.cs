@@ -11,63 +11,45 @@ namespace CodingTracker
     {
         ////////////////////////////////////////////// FIELDS ///////////////////////////////
         private DateTime _startTime;
-        private DateTime _endTime;
+        private DateTime? _endTime;
 
         /////////////////////////////////////////// PROPERTIES //////////////////////////
+        public int Id { get; private set; }
+
         public DateTime StartTime
         {
             get { return _startTime; }
             set
             {
-                if (_endTime != default && value > _endTime)
+                if (_endTime.HasValue && value > _endTime.Value)
                 {
                     throw new ArgumentException("Start time cannot be after end time.");
                 }
-
                 _startTime = value;
             }
         }
 
-        public DateTime EndTime
+        public DateTime? EndTime
         {
             get { return _endTime; }
             set
             {
-                // Input validation goes here
-
+                if (value.HasValue && value < _startTime)
+                {
+                    throw new ArgumentException("End time cannot be before start time.");
+                }
                 _endTime = value;
             }
         }
 
-        public int Id
-        { get; private set; } // Use private set since the database auto-increments Id
-
-
-        public TimeSpan Duration => CalculateDuration();
+        public TimeSpan? Duration => EndTime.HasValue ? EndTime - StartTime : null;
 
         //////////////////////////////////////////// CONSTRUCTORS ///////////////////////////////////
-        public CodingSession(DateTime startTime)
+        public CodingSession(DateTime startTime, DateTime? endTime = null)
         {
             _startTime = startTime;
+            EndTime = endTime;  // Use the property setter for validation
         }
-
-        public CodingSession(DateTime startTime, DateTime endTime) // Include overloaded constructor for flexibility -- so user can specify an end time right away
-        {
-            _startTime = startTime;
-            _endTime = endTime;
-        }
-
-        /// ///////////////////////////////////// METHODS ///////////////////////////////////
-
-        public TimeSpan CalculateDuration()
-        {
-            if (StartTime == default || EndTime == default)
-                throw new InvalidOperationException("Both Start time and End time must be set");
-
-            TimeSpan duration = TimeSpan.FromSeconds(Math.Round((EndTime - StartTime).TotalSeconds));
-            return duration;
-
-        }
-
     }
 }
+
