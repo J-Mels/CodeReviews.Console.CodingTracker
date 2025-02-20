@@ -16,6 +16,8 @@ class Program
         //    Console.WriteLine($"Failed to load config: {ex.Message}");
         //}
 
+        DatabaseInitializer.InitializeDatabase();
+
         try
         {
             DateTime start = DateTime.Today;
