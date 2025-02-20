@@ -4,17 +4,17 @@ using System.Text.Json;
 
 namespace CodingTracker
 {
-    public class ConfigManager
+    public static class ConfigManager
     {
-        public string? DatabasePath { get; private set; }
-        public string? ConnectionString { get; private set; }
+        public static string? DatabasePath { get; private set; }
+        public static string? ConnectionString { get; private set; }
 
-        public ConfigManager()
+        static ConfigManager()
         {
             LoadConfig();
         }
 
-        private void LoadConfig()
+        private static void LoadConfig()
         {
             string configFile = "config.json";
 

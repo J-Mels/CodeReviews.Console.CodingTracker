@@ -64,11 +64,6 @@ namespace CodingTracker
             if (StartTime == default || EndTime == default)
                 throw new InvalidOperationException("Both Start time and End time must be set");
 
-            //TimeSpan duration = EndTime - StartTime;
-            //TimeSpan durationParsed = TimeSpan.Parse(duration.ToString());
-            //TimeSpan durationRounded = TimeSpan.FromSeconds(Math.Round(asdf.TotalSeconds));
-            //return durationRounded;
-
             TimeSpan duration = TimeSpan.FromSeconds(Math.Round((EndTime - StartTime).TotalSeconds));
             return duration;
 
