@@ -37,5 +37,22 @@ namespace CodingTracker
             }
         }
 
+        public static bool CheckSession(int sessionId)
+        {
+            using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
+            {
+                string sql = "SELECT * FROM coding_tracker WHERE Id = @Id";
+
+                var session = connection.QueryFirstOrDefault<CodingSession>(sql, new { Id  = sessionId });
+
+                if (session == null)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+        }
     }
 }
