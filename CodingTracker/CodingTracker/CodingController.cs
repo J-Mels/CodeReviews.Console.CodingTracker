@@ -24,5 +24,18 @@ namespace CodingTracker
             }
         }
 
+        public static List<CodingSession> GetAllSessions()
+        {
+
+            using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
+            {
+                var sql = "SELECT * FROM coding_tracker";
+
+                var sessions = connection.Query<CodingSession>(sql).ToList();
+
+                return sessions;
+            }
+        }
+
     }
 }
