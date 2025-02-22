@@ -37,13 +37,39 @@ namespace CodingTracker
             }
         }
 
+        public static void UpdateSession(int sessionId, DateTime? newStart = null, DateTime? newEnd = null)
+        {
+            using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
+            {
+
+                string sqlSelect = "SELECT * FROM coding_tracker WHERE Id = @Id";
+
+                var session = connection.QuerySingleOrDefault<CodingSession>(sqlSelect, new { Id = sessionId });
+
+                // ONLY UPDATE THE VALUES PROVIDED BY THE USER
+                session.StartTime = newStart ?? session.StartTime;
+                session.EndTime = newEnd ?? session.EndTime;
+
+                string sqlUpdate = "UPDATE coding_tracker SET StartTime = @StartTime, EndTime = @EndTime, Duration = @Duration WHERE Id = @Id";
+
+                connection.Execute(sqlUpdate, new
+                {
+                    Id = sessionId,
+                    StartTime = session.StartTime,
+                    EndTime = session.EndTime,
+                    Duration = session.Duration
+                });
+
+            }
+        }
+
         public static bool CheckSession(int sessionId)
         {
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
                 string sql = "SELECT * FROM coding_tracker WHERE Id = @Id";
 
-                var session = connection.QueryFirstOrDefault<CodingSession>(sql, new { Id  = sessionId });
+                var session = connection.QueryFirstOrDefault<CodingSession>(sql, new { Id = sessionId });
 
                 if (session == null)
                 {
