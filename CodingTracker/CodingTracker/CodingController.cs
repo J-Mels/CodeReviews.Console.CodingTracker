@@ -17,10 +17,9 @@ namespace CodingTracker
 
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
-                connection.Execute(
-                    "INSERT INTO coding_tracker (StartTime, EndTime, Duration) VALUES (@StartTime, @EndTime, @Duration)",
-                    session
-                );
+                string sql = "INSERT INTO coding_tracker (StartTime, EndTime, Duration) VALUES (@StartTime, @EndTime, @Duration)";
+
+                connection.Execute(sql, session);
             }
         }
 
@@ -63,20 +62,29 @@ namespace CodingTracker
             }
         }
 
-        public static bool CheckSession(int sessionId)
+        //public static void DeleteSession(int sessionId)
+        //{
+        //    if (!CheckSession(sessionId))
+        //    {
+        //        throw new 
+        //    }
+
+        //    using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
+        //    {
+        //        string sql = "DELETE FROM coding_tracker WHERE Id = @Id";
+
+        //        connection.Execute(sql);
+        //    }
+        //}
+
+        private static bool CheckSession(int sessionId)
         {
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
                 string sql = "SELECT * FROM coding_tracker WHERE Id = @Id";
+                int count = connection.ExecuteScalar<int>(sql, new { Id = sessionId });
 
-                var session = connection.QueryFirstOrDefault<CodingSession>(sql, new { Id = sessionId });
-
-                if (session == null)
-                {
-                    return false;
-                }
-
-                return true;
+                return count > 0;
             }
 
         }
