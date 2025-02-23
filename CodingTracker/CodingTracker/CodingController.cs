@@ -40,6 +40,10 @@ namespace CodingTracker
         {
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
+                if (!CheckSession(sessionId))
+                {
+                    throw new KeyNotFoundException($"Coding session with ID {sessionId} not found.");
+                }
 
                 string sqlSelect = "SELECT * FROM coding_tracker WHERE Id = @Id";
 
@@ -62,20 +66,20 @@ namespace CodingTracker
             }
         }
 
-        //public static void DeleteSession(int sessionId)
-        //{
-        //    if (!CheckSession(sessionId))
-        //    {
-        //        throw new 
-        //    }
+        public static void DeleteSession(int sessionId)
+        {
+            if (!CheckSession(sessionId))
+            {
+                throw new KeyNotFoundException($"Coding session with ID {sessionId} not found.");
+            }
 
-        //    using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
-        //    {
-        //        string sql = "DELETE FROM coding_tracker WHERE Id = @Id";
+            using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
+            {
+                string sql = "DELETE FROM coding_tracker WHERE Id = @Id";
 
-        //        connection.Execute(sql);
-        //    }
-        //}
+                connection.Execute(sql);
+            }
+        }
 
         private static bool CheckSession(int sessionId)
         {
