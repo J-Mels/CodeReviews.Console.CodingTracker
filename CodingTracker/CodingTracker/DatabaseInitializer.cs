@@ -26,8 +26,7 @@ namespace CodingTracker
                             CREATE TABLE IF NOT EXISTS 'coding_tracker' (
                                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 StartTime TEXT NOT NULL,
-                                EndTime TEXT,
-                                Duration TEXT
+                                EndTime TEXT
                                 )");
 
                 connection.Close();
