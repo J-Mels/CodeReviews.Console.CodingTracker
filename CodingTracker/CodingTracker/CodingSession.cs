@@ -42,13 +42,21 @@ namespace CodingTracker
             }
         }
 
-        public TimeSpan? Duration => EndTime.HasValue ? EndTime - StartTime : null;
+        public TimeSpan? Duration { get; private set; }
 
         //////////////////////////////////////////// CONSTRUCTORS ///////////////////////////////////
         public CodingSession(DateTime startTime, DateTime? endTime = null)
         {
             _startTime = startTime;
             EndTime = endTime;  // Use the property setter for validation
+            Duration = CalculateDuration();
+        }
+
+        //////////////////////////////////////////// METHODS ///////////////////////////////////
+
+        private TimeSpan? CalculateDuration()
+        {
+            return EndTime.HasValue ? EndTime - StartTime : null;
         }
     }
 }
