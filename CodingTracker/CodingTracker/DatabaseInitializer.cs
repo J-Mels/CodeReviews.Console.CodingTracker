@@ -27,7 +27,7 @@ namespace CodingTracker
                                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 StartTime TEXT NOT NULL,
                                 EndTime TEXT,
-                                Duration TEXT,
+                                Duration TEXT
                                 )");
 
                 connection.Close();

@@ -77,7 +77,7 @@ namespace CodingTracker
             {
                 string sql = "DELETE FROM coding_tracker WHERE Id = @Id";
 
-                connection.Execute(sql);
+                connection.Execute(sql, new { Id = sessionId});
             }
         }
 
@@ -85,7 +85,7 @@ namespace CodingTracker
         {
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
-                string sql = "SELECT * FROM coding_tracker WHERE Id = @Id";
+                string sql = "SELECT COUNT(*) FROM coding_tracker WHERE Id = @Id";
                 int count = connection.ExecuteScalar<int>(sql, new { Id = sessionId });
 
                 return count > 0;
