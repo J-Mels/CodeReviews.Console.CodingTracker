@@ -18,8 +18,8 @@ class Program
 
         DatabaseInitializer.InitializeDatabase();
 
-        try
-        {
+        //try
+        //{
             DateTime start = DateTime.Today;
             DateTime end = DateTime.Now;
             CodingSession codingSession = new CodingSession(start, end);
@@ -27,11 +27,13 @@ class Program
             Console.WriteLine(codingSession.StartTime);
             Console.WriteLine(codingSession.EndTime);
             Console.WriteLine(codingSession.Duration);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
+
+            TableVisualizationEngine.DisplaySessions();
+        //}
+        //catch (Exception ex)
+        //{
+        //    Console.WriteLine($"Error: {ex.Message}");
+        //}
         Console.ReadKey();
     }
 }

@@ -47,7 +47,7 @@ namespace CodingTracker
 
                 string sqlSelect = "SELECT * FROM coding_tracker WHERE Id = @Id";
 
-                var session = connection.QuerySingleOrDefault<CodingSession>(sqlSelect, new { Id = sessionId });
+                var session = connection.QuerySingle<CodingSession>(sqlSelect, new { Id = sessionId });
 
                 // ONLY UPDATE THE VALUES PROVIDED BY THE USER
                 session.StartTime = newStart ?? session.StartTime;

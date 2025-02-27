@@ -45,6 +45,11 @@ namespace CodingTracker
         public TimeSpan? Duration { get; private set; }
 
         //////////////////////////////////////////// CONSTRUCTORS ///////////////////////////////////
+        public CodingSession() // Parameterless query needed for Dapper
+        {
+            _startTime = DateTime.MinValue; // Avoid uninitialized field -- This value is required here but never gets added to the database
+        }
+
         public CodingSession(DateTime startTime, DateTime? endTime = null)
         {
             _startTime = startTime;
