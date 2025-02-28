@@ -48,6 +48,7 @@ class Program
                 switch (userInput)
                 {
                     case "1":
+                        AnsiConsole.Clear();
                         TableVisualizationEngine.DisplaySessions();
                         break;
                     case "2":
@@ -60,15 +61,15 @@ class Program
                         programRunning = false;
                         break;
                     default:
-                        Console.WriteLine();
+                        AnsiConsole.WriteLine("Invalid entry. Try again.");
                         break;
                 }
             }
 
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine("Press any key to continue ...");
+                AnsiConsole.WriteLine($"Error: {ex.Message}");
+                AnsiConsole.WriteLine("Press any key to continue ...");
                 Console.ReadKey();
             }
 
