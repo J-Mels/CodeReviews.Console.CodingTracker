@@ -12,9 +12,32 @@ namespace CodingTracker
         public static void CreateSessionMenu()
         {
             AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[yellow]Create a Coding Session[/]");
 
-            // have user input start time, and optionally end time, specifying the date-time format that should be used
-            AnsiConsole.Ask<string>("Input coding session start time (yyyy-MM-dd HH:mm):"); 
+            // Get start time (required)
+            var (startInput, startTime) = GetDateTimeInput("start time", required: true);
+            if (startInput.Trim().ToLower() == "q")
+            {
+                AnsiConsole.MarkupLine("[yellow]Operation cancelled.[/]");
+                AnsiConsole.MarkupLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            // Get end time (optional)
+            var (endInput, endTime) = GetDateTimeInput("end time", required: false);
+            if (endInput.Trim().ToLower() == "q")
+            {
+                AnsiConsole.MarkupLine("[yellow]Operation cancelled.[/]");
+                AnsiConsole.MarkupLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            CodingController.CreateSession(startTime!.Value, endTime); // ! safe due to required=true
+            AnsiConsole.MarkupLine("[green]Session created successfully![/]");
+            AnsiConsole.MarkupLine("Press any key to return...");
+            Console.ReadKey();
         }
 
         public static void UpdateSessionMenu()
