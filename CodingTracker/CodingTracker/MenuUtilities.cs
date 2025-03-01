@@ -58,5 +58,34 @@ namespace CodingTracker
             // --documentation - https://spectreconsole.net/api/spectre.console/selectionprompt_1/
 
         }
+
+        // ------------------------------------------------------------------------------- //
+        // --------------------------------- HELPER METHODS ------------------------------ //
+        // ------------------------------------------------------------------------------- //
+
+        private static (string Input, DateTime? DateTime) GetDateTimeInput(string fieldName, bool required)
+        {
+            string promptText = required
+                ? $"Input [green]{fieldName}[/] (yyyy-MM-dd HH:mm) or 'q' to quit:"
+                : $"Input [green]{fieldName}[/] (yyyy-MM-dd HH:mm), Enter to skip, or 'q' to quit:";
+
+            DateTime? result = required ? DateTime.MinValue : null; // Default based on required
+            var prompt = new TextPrompt<string>(promptText)
+                .PromptStyle("green")
+                .AllowEmpty(!required) // Only allow empty if not required
+                .Validate(input =>
+                {
+                    if (input.Trim().ToLower() == "q")
+                        return ValidationResult.Success();
+                    if (!required && string.IsNullOrEmpty(input))
+                        return ValidationResult.Success();
+                    return InputValidation.TryParseDateTime(input, out result)
+                        ? ValidationResult.Success()
+                        : ValidationResult.Error("[red]Invalid format! Use 'yyyy-MM-dd HH:mm' (e.g., 2025-02-26 14:30)[/]");
+                });
+
+            string input = AnsiConsole.Prompt(prompt);
+            return (input, result);
+        }
     }
 }
