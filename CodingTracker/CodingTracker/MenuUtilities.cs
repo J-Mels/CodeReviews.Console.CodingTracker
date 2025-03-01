@@ -70,19 +70,29 @@ namespace CodingTracker
                 : $"Input [green]{fieldName}[/] (yyyy-MM-dd HH:mm), Enter to skip, or 'q' to quit:";
 
             DateTime? result = required ? DateTime.MinValue : null; // Default based on required
+
             var prompt = new TextPrompt<string>(promptText)
-                .PromptStyle("green")
-                .AllowEmpty(!required) // Only allow empty if not required
-                .Validate(input =>
-                {
-                    if (input.Trim().ToLower() == "q")
-                        return ValidationResult.Success();
-                    if (!required && string.IsNullOrEmpty(input))
-                        return ValidationResult.Success();
-                    return InputValidation.TryParseDateTime(input, out result)
-                        ? ValidationResult.Success()
-                        : ValidationResult.Error("[red]Invalid format! Use 'yyyy-MM-dd HH:mm' (e.g., 2025-02-26 14:30)[/]");
-                });
+                .PromptStyle("green");
+
+            if (!required)
+                prompt.AllowEmpty();
+
+            prompt.Validate(input =>
+            {
+                if (input.Trim().ToLower() == "q")
+                    return ValidationResult.Success();
+                if (!required && string.IsNullOrEmpty(input))
+                    return ValidationResult.Success();
+                DateTime temp; // Non-nullable needed here for TryParseDateTime
+                bool isValid = InputValidation.TryParseDateTime(input, out temp);
+                if (isValid)
+                    result = temp; // Assign the dateTime value to a nullable result, only if the validation check passes
+                if (!isValid && required)
+                    return ValidationResult.Error("[red]Invalid format! Use 'yyyy-MM-dd HH:mm' (e.g., 2025-02-26 14:30)[/]");
+                return isValid
+                    ? ValidationResult.Success()
+                    : ValidationResult.Error("[red]Invalid format or empty not allowed! Use 'yyyy-MM-dd HH:mm'[/]");
+            });
 
             string input = AnsiConsole.Prompt(prompt);
             return (input, result);
