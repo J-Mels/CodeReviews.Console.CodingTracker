@@ -83,7 +83,7 @@ namespace CodingTracker
                     return ValidationResult.Success();
                 if (!required && string.IsNullOrEmpty(input))
                     return ValidationResult.Success();
-                DateTime temp; // Non-nullable needed here for TryParseDateTime
+                DateTime temp; // Need to store this as a non-nullable type for TryParseDateTime
                 bool isValid = InputValidation.TryParseDateTime(input, out temp);
                 if (isValid)
                     result = temp; // Assign the dateTime value to a nullable result, only if the validation check passes

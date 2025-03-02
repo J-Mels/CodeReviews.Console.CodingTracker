@@ -24,6 +24,7 @@ class Program
         {
             try
             {
+                // TESTING
                 //DateTime start = DateTime.Today;
                 //DateTime end = DateTime.Now;
                 //CodingSession codingSession = new CodingSession(start, end);
@@ -31,7 +32,7 @@ class Program
                 //Console.WriteLine(codingSession.StartTime);
                 //Console.WriteLine(codingSession.EndTime);
                 //Console.WriteLine(codingSession.Duration);
-
+                AnsiConsole.Clear();
 
                 AnsiConsole.WriteLine("------MAIN MENU------");
                 AnsiConsole.WriteLine();
@@ -52,6 +53,8 @@ class Program
                         TableVisualizationEngine.DisplaySessions();
                         break;
                     case "2":
+                        AnsiConsole.Clear();
+                        MenuUtilities.CreateSessionMenu();
                         break;
                     case "3":
                         break;

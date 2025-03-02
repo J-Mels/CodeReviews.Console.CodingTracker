@@ -17,7 +17,7 @@ namespace CodingTracker
 
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
-                string sql = "INSERT INTO coding_tracker (StartTime, EndTime, Duration) VALUES (@StartTime, @EndTime, @Duration)";
+                string sql = "INSERT INTO coding_tracker (StartTime, EndTime) VALUES (@StartTime, @EndTime)";
 
                 connection.Execute(sql, session);
             }
@@ -53,7 +53,7 @@ namespace CodingTracker
                 session.StartTime = newStart ?? session.StartTime;
                 session.EndTime = newEnd ?? session.EndTime;
 
-                string sqlUpdate = "UPDATE coding_tracker SET StartTime = @StartTime, EndTime = @EndTime, Duration = @Duration WHERE Id = @Id";
+                string sqlUpdate = "UPDATE coding_tracker SET StartTime = @StartTime, EndTime = @EndTime WHERE Id = @Id";
 
                 connection.Execute(sqlUpdate, new
                 {
