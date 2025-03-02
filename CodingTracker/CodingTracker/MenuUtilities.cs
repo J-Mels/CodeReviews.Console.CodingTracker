@@ -43,10 +43,26 @@ namespace CodingTracker
         public static void UpdateSessionMenu()
         {
             AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[yellow]Update a Coding Session[/]");
 
-            //  ask user to select an ID from the list of sessions
-            // --Use AnsiConsole.Prompt(new SelectionPrompt<string>().Title().PageSize().MoreChoicesText().AddChoices())
-            // --documentation -- https://spectreconsole.net/api/spectre.console/selectionprompt_1/
+            var sessions = CodingController.GetAllSessions();
+            if (!sessions.Any())
+            {
+                AnsiConsole.MarkupLine("[red]No sessions to update![/]");
+                AnsiConsole.MarkupLine("Press any key to return...");
+                Console.ReadKey();
+                return;
+            }
+
+            var prompt = new SelectionPrompt<CodingSession>()
+                .Title("Select a coding session to update")
+                .PageSize(15)
+                .MoreChoicesText("[grey]Move up/down to see more sessions)[/]")
+                .AddChoices(sessions)
+                .UseConverter(session =>
+                    $"{session.Id}\t{session.StartTime}\t{(session.EndTime.HasValue ? session.EndTime : "")}\t{(session.Duration.HasValue ? session.Duration : "")}");
+
+            CodingSession selectedSession = AnsiConsole.Prompt(prompt);
         }
 
         public static void DeleteSessionMenu()

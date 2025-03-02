@@ -59,6 +59,10 @@ class Program
                         MenuUtilities.CreateSessionMenu();
                         break;
                     case "3":
+                        AnsiConsole.Clear();
+                        MenuUtilities.UpdateSessionMenu();
+                        AnsiConsole.WriteLine("Press any key to continue ...");
+                        Console.ReadKey();
                         break;
                     case "4":
                         break;
