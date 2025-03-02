@@ -51,6 +51,8 @@ class Program
                     case "1":
                         AnsiConsole.Clear();
                         TableVisualizationEngine.DisplaySessions();
+                        AnsiConsole.WriteLine("Press any key to continue ...");
+                        Console.ReadKey();
                         break;
                     case "2":
                         AnsiConsole.Clear();

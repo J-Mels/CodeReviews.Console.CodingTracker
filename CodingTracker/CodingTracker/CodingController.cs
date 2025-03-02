@@ -59,8 +59,7 @@ namespace CodingTracker
                 {
                     Id = sessionId,
                     StartTime = session.StartTime,
-                    EndTime = session.EndTime,
-                    Duration = session.Duration
+                    EndTime = session.EndTime
                 });
 
             }

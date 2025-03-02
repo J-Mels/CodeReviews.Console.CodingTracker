@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,9 @@ namespace CodingTracker
                     throw new ArgumentException("Start time cannot be after end time.");
                 }
                 _startTime = value;
+
+                // Duration calculation needed below to ensure Duration receives a value when parameterless (Dapper) constructor is invoked
+                Duration = CalculateDuration();
             }
         }
 
@@ -39,6 +43,9 @@ namespace CodingTracker
                     throw new ArgumentException("End time cannot be before start time.");
                 }
                 _endTime = value;
+
+                // Duration calculation needed below to ensure Duration receives a value when parameterless (Dapper) constructor is invoked
+                Duration = CalculateDuration();
             }
         }
 
@@ -47,7 +54,9 @@ namespace CodingTracker
         //////////////////////////////////////////// CONSTRUCTORS ///////////////////////////////////
         public CodingSession() // Parameterless query needed for Dapper
         {
-            _startTime = DateTime.MinValue; // Avoid uninitialized field -- This value is required here but never gets added to the database
+            // Avoid uninitialized fields -- The DateTime.MinValue here never actually gets added to the database
+            // -- This is a safety measure to avoid potential "Use of unassigned local variable (CS0165)" compiler errors
+            _startTime = DateTime.MinValue; 
         }
 
         public CodingSession(DateTime startTime, DateTime? endTime = null)
