@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace CodingTracker
 {
@@ -19,7 +20,7 @@ namespace CodingTracker
             if (startInput.Trim().ToLower() == "q")
             {
                 AnsiConsole.MarkupLine("[yellow]Operation cancelled.[/]");
-                AnsiConsole.MarkupLine("Press any key to return...");
+                AnsiConsole.MarkupLine("Press any key to continue...");
                 Console.ReadKey();
                 return;
             }
@@ -29,14 +30,14 @@ namespace CodingTracker
             if (endInput.Trim().ToLower() == "q")
             {
                 AnsiConsole.MarkupLine("[yellow]Operation cancelled.[/]");
-                AnsiConsole.MarkupLine("Press any key to return...");
+                AnsiConsole.MarkupLine("Press any key to continue...");
                 Console.ReadKey();
                 return;
             }
 
             CodingController.CreateSession(startTime!.Value, endTime); // ! safe due to required=true
             AnsiConsole.MarkupLine("[green]Session created successfully![/]");
-            AnsiConsole.MarkupLine("Press any key to return...");
+            AnsiConsole.MarkupLine("Press any key to continue...");
             Console.ReadKey();
         }
 
@@ -49,7 +50,7 @@ namespace CodingTracker
             if (!sessions.Any())
             {
                 AnsiConsole.MarkupLine("[red]No sessions to update![/]");
-                AnsiConsole.MarkupLine("Press any key to return...");
+                AnsiConsole.MarkupLine("Press any key to continue...");
                 Console.ReadKey();
                 return;
             }
@@ -59,10 +60,38 @@ namespace CodingTracker
                 .PageSize(15)
                 .MoreChoicesText("[grey]Move up/down to see more sessions)[/]")
                 .AddChoices(sessions)
-                .UseConverter(session =>
-                    $"{session.Id}\t{session.StartTime}\t{(session.EndTime.HasValue ? session.EndTime : "")}\t{(session.Duration.HasValue ? session.Duration : "")}");
+                .UseConverter(session => GetSessionString(session!));
+            // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
 
             CodingSession selectedSession = AnsiConsole.Prompt(prompt);
+
+            AnsiConsole.MarkupLine($"\n[yellow]Coding Session Selected:[/]\n[blue]{GetSessionString(selectedSession)}[/]\n");
+
+            // Prompt for updates
+            // Get start time (not required)
+            var (startInput, newStart) = GetDateTimeInput("new start time", required: false);
+            if (startInput.Trim().ToLower() == "q")
+            {
+                AnsiConsole.MarkupLine("[yellow]Operation cancelled.[/]");
+                AnsiConsole.MarkupLine("Press any key to continue...");
+                Console.ReadKey();
+                return;
+            }
+
+            // Get end time (not required)
+            var (endInput, newEnd) = GetDateTimeInput("new end time", required: false);
+            if (endInput.Trim().ToLower() == "q")
+            {
+                AnsiConsole.MarkupLine("[yellow]Operation cancelled.[/]");
+                AnsiConsole.MarkupLine("Press any key to continue...");
+                Console.ReadKey();
+                return;
+            }
+
+            CodingController.UpdateSession(selectedSession.Id, newStart, newEnd);
+            AnsiConsole.MarkupLine("[green]Session updated successfully![/]");
+            AnsiConsole.MarkupLine("Press any key to continue...");
+            Console.ReadKey();
         }
 
         public static void DeleteSessionMenu()
@@ -112,6 +141,11 @@ namespace CodingTracker
 
             string input = AnsiConsole.Prompt(prompt);
             return (input, result);
+        }
+
+        private static string GetSessionString(CodingSession session)
+        {
+            return $"{session.Id}\t{session.StartTime:yyyy-MM-dd HH:mm}\t{(session.EndTime.HasValue ? session.EndTime.Value.ToString("yyyy-MM-dd HH:mm") : "")}\t{(session.Duration.HasValue ? session.Duration.Value.ToString(@"hh\:mm\:ss") : "")}";
         }
     }
 }
