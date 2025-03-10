@@ -61,7 +61,7 @@ namespace CodingTracker
                 .MoreChoicesText("[grey]Move up/down to see more sessions)[/]")
                 .AddChoices(sessions)
                 .UseConverter(session => GetSessionString(session!));
-            // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
+                // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
 
             CodingSession selectedSession = AnsiConsole.Prompt(prompt);
 
@@ -97,11 +97,35 @@ namespace CodingTracker
         public static void DeleteSessionMenu()
         {
             AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[yellow]Delete a Coding Session[/]");
 
-            //  ask user to select an ID from the list of sessions
-            // --Use AnsiConsole.Prompt(new SelectionPrompt<string>().Title().PageSize().MoreChoicesText().AddChoices())
-            // --documentation - https://spectreconsole.net/api/spectre.console/selectionprompt_1/
+            var sessions = CodingController.GetAllSessions();
+            if (!sessions.Any())
+            {
+                AnsiConsole.MarkupLine("[red]No sessions to delete![/]");
+                AnsiConsole.MarkupLine("Press any key to continue...");
+                Console.ReadKey();
+                return;
+            }
 
+            var prompt = new SelectionPrompt<CodingSession>()
+                .Title("Select a coding session to delete")
+                .PageSize(15)
+                .MoreChoicesText("[grey]Move up/down to see more sessions)[/]")
+                .AddChoices(sessions)
+                .UseConverter(session => GetSessionString(session!));
+                // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
+
+            CodingSession selectedSession = AnsiConsole.Prompt(prompt);
+
+            AnsiConsole.MarkupLine($"\n[yellow]Coding Session Selected:[/]\n[blue]{GetSessionString(selectedSession)}[/]\n");
+            AnsiConsole.MarkupLine($"[red]WARNING: Once deleted, entries in the database cannot be recovered[/]\n");
+
+            CodingController.DeleteSession(selectedSession.Id);
+
+            AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
+            AnsiConsole.MarkupLine("Press any key to continue...");
+            Console.ReadKey();
         }
 
         // ------------------------------------------------------------------------------- //
@@ -126,14 +150,20 @@ namespace CodingTracker
             {
                 if (input.Trim().ToLower() == "q")
                     return ValidationResult.Success();
+
                 if (!required && string.IsNullOrEmpty(input))
                     return ValidationResult.Success();
+
                 DateTime temp; // Need to store this as a non-nullable type for TryParseDateTime
+
                 bool isValid = InputValidation.TryParseDateTime(input, out temp);
+
                 if (isValid)
                     result = temp; // Assign the dateTime value to a nullable result, only if the validation check passes
+
                 if (!isValid && required)
                     return ValidationResult.Error("[red]Invalid format! Use 'yyyy-MM-dd HH:mm' (e.g., 2025-02-26 14:30)[/]");
+
                 return isValid
                     ? ValidationResult.Success()
                     : ValidationResult.Error("[red]Invalid format or empty not allowed! Use 'yyyy-MM-dd HH:mm'[/]");

@@ -33,6 +33,9 @@ class Program
                 //Console.WriteLine(codingSession.EndTime);
                 //Console.WriteLine(codingSession.Duration);
                 AnsiConsole.Clear();
+                var confirmation = AnsiConsole.Prompt(
+                    new ConfirmationPrompt("Run prompt example?"));
+                Console.WriteLine(confirmation ? "Confirmed" : "Declined");
 
                 AnsiConsole.WriteLine("------MAIN MENU------");
                 AnsiConsole.WriteLine();
