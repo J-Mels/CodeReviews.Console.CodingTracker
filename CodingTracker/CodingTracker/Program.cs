@@ -7,31 +7,23 @@ class Program
     static void Main()
     {
         bool programRunning = true;
-        //try
-        //{
-        //    ConfigManager configManager = new ConfigManager();
-        //    Console.WriteLine($"Database Path: {configManager.DatabasePath}");
-        //    Console.WriteLine($"Connection String: {configManager.ConnectionString}");
-        //}
-        //catch (Exception ex)
-        //{
-        //    Console.WriteLine($"Failed to load config: {ex.Message}");
-        //}
 
-        DatabaseInitializer.InitializeDatabase();
+        try
+        {
+            DatabaseInitializer.InitializeDatabase();
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.WriteLine($"Failed to initialize database: {ex.Message}");
+            AnsiConsole.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+            return; // Exit program since DB is essential
+        }
 
         while (programRunning)
         {
             try
             {
-                // TESTING
-                //DateTime start = DateTime.Today;
-                //DateTime end = DateTime.Now;
-                //CodingSession codingSession = new CodingSession(start, end);
-
-                //Console.WriteLine(codingSession.StartTime);
-                //Console.WriteLine(codingSession.EndTime);
-                //Console.WriteLine(codingSession.Duration);
                 AnsiConsole.Clear();
 
                 AnsiConsole.WriteLine("------MAIN MENU------");
