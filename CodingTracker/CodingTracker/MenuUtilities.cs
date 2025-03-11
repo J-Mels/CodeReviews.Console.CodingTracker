@@ -61,7 +61,7 @@ namespace CodingTracker
                 .MoreChoicesText("[grey]Move up/down to see more sessions)[/]")
                 .AddChoices(sessions)
                 .UseConverter(session => GetSessionString(session!));
-                // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
+            // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
 
             CodingSession selectedSession = AnsiConsole.Prompt(prompt);
 
@@ -114,17 +114,23 @@ namespace CodingTracker
                 .MoreChoicesText("[grey]Move up/down to see more sessions)[/]")
                 .AddChoices(sessions)
                 .UseConverter(session => GetSessionString(session!));
-                // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
+            // Using session! above to suppress compiler warning; not an issue since sessions are always non-null from GetAllSessions
 
             CodingSession selectedSession = AnsiConsole.Prompt(prompt);
 
             AnsiConsole.MarkupLine($"\n[yellow]Coding Session Selected:[/]\n[blue]{GetSessionString(selectedSession)}[/]\n");
             AnsiConsole.MarkupLine($"[red]WARNING: Once deleted, entries in the database cannot be recovered[/]\n");
 
-            CodingController.DeleteSession(selectedSession.Id);
+            var confirmationPrompt = AnsiConsole.Prompt(new ConfirmationPrompt("Delete coding session?").HideDefaultValue());
 
-            AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
-            AnsiConsole.MarkupLine("Press any key to continue...");
+            if (confirmationPrompt)
+            {
+                CodingController.DeleteSession(selectedSession.Id);
+            }
+
+            AnsiConsole.MarkupLine(confirmationPrompt ? "Deletion Confirmed" : "Deletion Aborted");
+
+            AnsiConsole.MarkupLine("\nPress any key to continue...");
             Console.ReadKey();
         }
 

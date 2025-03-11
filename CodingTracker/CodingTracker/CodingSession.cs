@@ -52,7 +52,7 @@ namespace CodingTracker
         public TimeSpan? Duration { get; private set; }
 
         //////////////////////////////////////////// CONSTRUCTORS ///////////////////////////////////
-        public CodingSession() // Parameterless query needed for Dapper
+        public CodingSession() // Parameterless constructor needed for Dapper
         {
             // Avoid uninitialized fields -- The DateTime.MinValue here never actually gets added to the database
             // -- This is a safety measure to avoid potential "Use of unassigned local variable (CS0165)" compiler errors

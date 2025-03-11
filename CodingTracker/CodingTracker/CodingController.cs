@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using System.Data.SQLite;
+using Spectre.Console;
 
 namespace CodingTracker
 {
@@ -13,19 +14,18 @@ namespace CodingTracker
 
         public static void CreateSession(DateTime start, DateTime? end = null)
         {
-            var session = new CodingSession(start, end);
+                var session = new CodingSession(start, end);
 
-            using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
-            {
-                string sql = "INSERT INTO coding_tracker (StartTime, EndTime) VALUES (@StartTime, @EndTime)";
+                using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
+                {
+                    string sql = "INSERT INTO coding_tracker (StartTime, EndTime) VALUES (@StartTime, @EndTime)";
 
-                connection.Execute(sql, session);
-            }
+                    connection.Execute(sql, session);
+                }
         }
 
         public static List<CodingSession> GetAllSessions()
         {
-
             using (var connection = new SQLiteConnection(ConfigManager.ConnectionString))
             {
                 var sql = "SELECT * FROM coding_tracker";
@@ -76,7 +76,7 @@ namespace CodingTracker
             {
                 string sql = "DELETE FROM coding_tracker WHERE Id = @Id";
 
-                connection.Execute(sql, new { Id = sessionId});
+                connection.Execute(sql, new { Id = sessionId });
             }
         }
 
