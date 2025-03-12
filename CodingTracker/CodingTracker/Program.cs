@@ -1,6 +1,5 @@
 ﻿using CodingTracker;
 using Spectre.Console;
-using System;
 
 class Program
 {
