@@ -57,9 +57,9 @@ Console based CRUD application to track time spent coding. Developed using C# an
 - I became more comfortable using the debugger to identify the source of errors and application logic issues.
 
 # Areas to Improve
-- Although I gave my application some structure by separating functionality into different classes, 
+- Although I gave my application some structure by separating functionality into different classes, I would like to explore other features of OOP that can lend even more structure to my application.
 
-- In line with the previous point, I think I could have offloaded some functionality in many of my methods into smaller, more reusable methods to better adhere to DRY and the "single responsibility" rule.
+- I could have offloaded some functionality in many of my methods into smaller, more reusable methods to better adhere to DRY and the "single responsibility" rule.
 
 - I should probably use more descriptive comments throughout my code to give new users an overview of the application at first glance and help explain complicated functionality in plain English.
 
