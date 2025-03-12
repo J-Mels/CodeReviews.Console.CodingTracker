@@ -71,3 +71,14 @@ Console based CRUD application to track time spent coding. Developed using C# an
 - [OOP guide from C# Academy](https://www.thecsharpacademy.com/course/1/article/0/500025/false)
 
 - LLMs such as ChatGPT for help in explaining new concepts (particularly OOP) and troubleshooting compiler errors.
+
+# NOTES
+To run the application for the first time, you will need to include a config.json with the following contents in the bin\Debug\net8.0 folder of your project.
+`
+{
+  "Database": {
+    "Path": "coding_tracker.db",
+    "ConnectionString": "Data Source=coding_tracker.db;Version=3;"
+  }
+}
+`
