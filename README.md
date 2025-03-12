@@ -1,9 +1,7 @@
 # Coding Hours Tracker
----
 Console based CRUD application to track time spent coding. Developed using C# and SQLite.
 
 # Given Requirements:
----
 - [x] The application should store and retrieve data from a real database
 
 - [x] When the application starts, it should create a sqlite database, if one isn’t present.
@@ -35,21 +33,19 @@ Console based CRUD application to track time spent coding. Developed using C# an
 - [x] Follow the DRY Principle, and avoid code repetition.
 
 # Features
----
 - SQLite database connection
-- - The program uses a SQLite db connection to store and read information.
-- - If no database exists, or the correct table does not exist they will be created on program start.
+    - The program uses a SQLite db connection to store and read information.
+    - If no database exists, or the correct table does not exist they will be created on program start.
 
 - A console based UI where users can navigate via key presses.
 
 - CRUD Database Functions
-- - From the main menu users can Create, Read, Update or Delete entries for whichever date they want, entered in yyyy-MM-dd HH:mm format.
-- - Time and Dates inputted are checked to make sure they are in the correct and realistic format.
+    - From the main menu users can Create, Read, Update or Delete entries for whichever date they want, entered in yyyy-MM-dd HH:mm format.
+    - Time and Dates inputted are checked to make sure they are in the correct and realistic format.
 
 - Data output utilizes the Spectre.Console library to enhance the visual appeal of the console, allowing for structured tables, colored text and more.
 
 # Lessons Learned
----
 - This is my first application using the OOP paradigm, so I had to become familiar with using multiple classes, getting and setting properties, writing methods with overloads, and utilizing the appropriate access modifiers on classes and members.
 
 - I had to become familiar reading official documentation (particularly for Dapper and Spectre.Console) to understand how to translate newly-learned concepts to solutions in my code.
@@ -61,7 +57,6 @@ Console based CRUD application to track time spent coding. Developed using C# an
 - I became more comfortable using the debugger to identify the source of errors and application logic issues.
 
 # Areas to Improve
----
 - Although I gave my application some structure by separating functionality into different classes, 
 
 - In line with the previous point, I think I could have offloaded some functionality in many of my methods into smaller, more reusable methods to better adhere to DRY and the "single responsibility" rule.
@@ -69,9 +64,10 @@ Console based CRUD application to track time spent coding. Developed using C# an
 - I should probably use more descriptive comments throughout my code to give new users an overview of the application at first glance and help explain complicated functionality in plain English.
 
 # Resources Used
----
-- learndapper.com (official Dapper documentation)
+- [Dapper Tutorial](learndapper.com)
 
-- spectreconsole.net (official Spectre.Console documentation)
+- [Official Spectre.Console documentation](spectreconsole.net)
+
+- [OOP guide from C# Academy](https://www.thecsharpacademy.com/course/1/article/0/500025/false)
 
 - LLMs such as ChatGPT for help in explaining new concepts (particularly OOP) and troubleshooting compiler errors.
